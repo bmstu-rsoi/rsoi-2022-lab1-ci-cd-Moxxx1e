@@ -8,17 +8,16 @@ import (
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 
+	"github.com/Moxxx1e/rsoi-2022-lab1-ci-cd-Moxxx1e/internal/configure"
 	"github.com/Moxxx1e/rsoi-2022-lab1-ci-cd-Moxxx1e/internal/person/delivery"
 	"github.com/Moxxx1e/rsoi-2022-lab1-ci-cd-Moxxx1e/internal/person/repository"
 	"github.com/Moxxx1e/rsoi-2022-lab1-ci-cd-Moxxx1e/internal/person/usecase"
 )
 
-const (
-	dsn = "postgres://oskolganov:postgres@localhost:5432/postgres?sslmode=disable"
-)
-
 func main() {
-	db, err := sqlx.Connect("postgres", dsn)
+	dbConf := configure.NewLocal()
+
+	db, err := sqlx.Connect("postgres", dbConf.GetDSN())
 	if err != nil {
 		log.Fatal(fmt.Errorf("error connecting to database: %w", err))
 	}
@@ -30,5 +29,5 @@ func main() {
 	e := echo.New()
 	handler.Configure(e)
 
-	log.Fatal(e.Start(":8890"))
+	log.Fatal(e.Start(configure.GetConnString()))
 }

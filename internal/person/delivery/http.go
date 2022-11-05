@@ -50,6 +50,7 @@ func (h *Handler) Create() echo.HandlerFunc {
 		locationValue := fmt.Sprintf(locationValueFormat, id)
 		ctx.Response().Header().Set("Location", locationValue)
 
+		ctx.Response().Header().Set("Content-Type", "application/json")
 		return ctx.JSON(http.StatusCreated, nil)
 	}
 }
@@ -67,6 +68,7 @@ func (h *Handler) Delete() echo.HandlerFunc {
 			return ctx.JSON(http.StatusInternalServerError, err)
 		}
 
+		ctx.Response().Header().Set("Content-Type", "application/json")
 		return ctx.JSON(http.StatusNoContent, nil)
 	}
 }
@@ -86,6 +88,7 @@ func (h *Handler) GetByID() echo.HandlerFunc {
 			return ctx.JSON(http.StatusInternalServerError, err)
 		}
 
+		ctx.Response().Header().Set("Content-Type", "application/json")
 		return ctx.JSON(http.StatusOK, fromModel(model))
 	}
 }
@@ -102,6 +105,7 @@ func (h *Handler) GetAll() echo.HandlerFunc {
 			response = append(response, fromModel(p))
 		}
 
+		ctx.Response().Header().Set("Content-Type", "application/json")
 		return ctx.JSON(http.StatusOK, response)
 	}
 }
@@ -126,6 +130,7 @@ func (h *Handler) Update() echo.HandlerFunc {
 			return ctx.JSON(http.StatusInternalServerError, err)
 		}
 
+		ctx.Response().Header().Set("Content-Type", "application/json")
 		return ctx.JSON(http.StatusOK, fromModel(updated))
 	}
 }
